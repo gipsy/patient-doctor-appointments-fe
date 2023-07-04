@@ -32,8 +32,6 @@ const App = () => {
   
   const handleSendData = async () => {
     
-    console.log('test patients', patients)
-    console.log('test appointments', appointments)
     let [patientsResult, doctorsResult, appointmentsResult] = await Promise.all([
       createPatients(patients),
       createDoctors(doctors),
