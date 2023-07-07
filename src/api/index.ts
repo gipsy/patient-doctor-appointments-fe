@@ -21,6 +21,6 @@ export const createAppointments = (appointments: IAppointment[]) => API.post('/a
   });
 export const clearDB = () => API.delete('/delete/all')
   .catch(error => {
-    //console.log(error.response);
+    console.log(error.response);
     throw error.response.data
   })
