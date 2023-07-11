@@ -88,7 +88,9 @@ const Dashboard = () => {
   
   
   useEffect(() => {
-    const source = new EventSource(`${env.API_URL}/dashboard`);
+    const source = new EventSource(`${env.API_URL}/dashboard`, {
+      withCredentials: true,
+    });
     
     source.addEventListener('open', () => {
       console.log('SSE opened!');
