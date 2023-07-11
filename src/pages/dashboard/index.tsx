@@ -88,7 +88,7 @@ const Dashboard = () => {
   
   
   useEffect(() => {
-    const source = new EventSource(`https://pdr-be.fly.dev/dashboard`);
+    const source = new EventSource(`${env.API_URL}/dashboard`);
     
     source.addEventListener('open', () => {
       console.log('SSE opened!');
