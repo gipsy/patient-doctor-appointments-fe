@@ -1,3 +1,3 @@
 window.env = {
-  "API_URL": "http://localhost:4650"
+  "API_URL": "https://pdr-be.fly.dev"
 };
