@@ -3,7 +3,7 @@ export type ChangeEvent = React.ChangeEvent<HTMLTextAreaElement>;
 export interface IPerson {
   id: number;
   name?: string;
-  birth_date?: Date;
+  birth_date?: string;
   time_slot: string;
 };
 

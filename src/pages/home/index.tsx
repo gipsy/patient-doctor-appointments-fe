@@ -1,5 +1,5 @@
-import React, { useState }                                            from "react";
-import { ChangeEvent, IAppointment, IPerson }                         from "../../types";
+import React, { useRef, useState } from "react";
+import { ChangeEvent, IAppointment, IPerson }                   from "../../types";
 import { parseForm }                                                  from "../../utils/parse-form";
 import { appointmentValidator, personValidator }                      from "../../utils/validators";
 import { clearDB, createAppointments, createDoctors, createPatients } from "../../api";
@@ -7,6 +7,9 @@ import Modal                                                          from "../.
 import ResultList                                                     from "../../components/results";
 
 const Home = () => {
+  const patientsRef = useRef<any>(null);
+  const doctorsRef = useRef<any>(null);
+  const appointmentsRef = useRef<any>(null);
   const [patients, setPatients] = useState<IPerson[]>([]);
   const [doctors, setDoctors] = useState<IPerson[]>([]);
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
@@ -38,7 +41,6 @@ const Home = () => {
     event.preventDefault();
     
     const appointments = parseForm(event.target.value, appointmentValidator);
-    console.log('test appointment without time', appointments)
     setAppointments(appointments);
   }
   
@@ -54,6 +56,13 @@ const Home = () => {
     if (results.length > 0) {
       handleModalOpen()
     }
+  
+    setPatients([]);
+    setDoctors([]);
+    setAppointments([]);
+    patientsRef.current.value = null;
+    doctorsRef.current.value = null;
+    appointmentsRef.current.value = null;
   }
   
   const handleClearDB = async () => {
@@ -76,7 +85,6 @@ const Home = () => {
         <div className="container mx-auto">
           <div className="grid grid-cols-3 md:grid-cols-3 gap-4">
             <div className="w-full py-8 mx-auto max-w-2xl lg:py-16">
-              {/*<h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add patients</h2>*/}
               <form action="#">
                 <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                   <div className="sm:col-span-2">
@@ -85,6 +93,7 @@ const Home = () => {
                     <textarea id="patients" rows={8}
                               className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="Please enter patients data here"
+                              ref={patientsRef}
                               onChange={ handlePatientsChange }
                     />
                   </div>
@@ -92,15 +101,15 @@ const Home = () => {
               </form>
             </div>
             <div className="w-full py-8 mx-auto max-w-2xl lg:py-16">
-              {/*<h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add Doctors</h2>*/}
               <form action="#">
                 <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                   <div className="sm:col-span-2">
                     <label htmlFor="patients"
                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Doctors</label>
-                    <textarea id="patients" rows={8}
+                    <textarea id="doctors" rows={8}
                               className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="Please enter patients data here"
+                              ref={doctorsRef}
                               onChange={ handleDoctorsChange }
                     />
                   </div>
@@ -108,7 +117,6 @@ const Home = () => {
               </form>
             </div>
             <div className="w-full py-8 mx-auto max-w-2xl lg:py-16">
-              {/*<h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add appointments</h2>*/}
               <form action="#">
                 <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                   <div className="sm:col-span-2">
@@ -117,6 +125,7 @@ const Home = () => {
                     <textarea id="patients" rows={8}
                               className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                               placeholder="Please enter patients data here"
+                              ref={appointmentsRef}
                               onChange={handleAppointmentsChange}
                     />
                   </div>
@@ -127,6 +136,7 @@ const Home = () => {
           <div className="flex justify-end">
             <button type="submit"
                     className="inline-flex items-center px-5 py-2.5 mt-4 mr-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+                    disabled={!patients.length && !doctors.length && !appointments.length}
                     onClick={handleSendData}
             >
               Send data

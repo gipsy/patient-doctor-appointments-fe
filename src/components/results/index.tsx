@@ -170,7 +170,7 @@ const ResultList = ({ results }: { results: Array<any> }) => {
       results[2] !== undefined && results[2].data !== undefined
       ? results[2].data
       : results[2] !== undefined && results[2].message !== undefined !== results[1].message.insertedDocs !== undefined
-        ? results[2].message.insertedDocs
+        ? results[2].message?.insertedDocs
         : []
     
     const wrongFormatAppointments =
@@ -187,8 +187,10 @@ const ResultList = ({ results }: { results: Array<any> }) => {
               {successfulAppointments.map((appointment: any, index: number) => (
                 <li key={ index }>
                   {`${appointment.patient_id}`
-                    +`, ${appointment.doctor_id}`
-                    +`${appointment.start_appointment_time.length > 0 ? ', '+appointment.start_appointment_time : ''}`
+                  +`, ${appointment.doctor_id}`
+                  +`${appointment.start_appointment_time !== undefined
+                      && appointment.start_appointment_time
+                      ? ', '+appointment.start_appointment_time : ''}`
                   }
                 </li>
               ))}
