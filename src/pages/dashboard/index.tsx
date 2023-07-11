@@ -3,6 +3,7 @@ import { IAppointment, IPerson }                             from "../../types";
 import { getDoctorById, getPatientById, updateAppointments } from "../../api";
 import Modal                                                 from "../../components/modal";
 import { AxiosResponse }                                     from "axios";
+import env                                                   from "react-dotenv";
 
 interface State {
   requestedAppointments?: IAppointment[];
@@ -87,7 +88,7 @@ const Dashboard = () => {
   
   
   useEffect(() => {
-    const source = new EventSource(`http://localhost:4650/dashboard`);
+    const source = new EventSource(`${env.API_URL}/dashboard`);
     
     source.addEventListener('open', () => {
       console.log('SSE opened!');
