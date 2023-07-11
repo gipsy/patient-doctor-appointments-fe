@@ -25,9 +25,9 @@ const Appointments = (
         <li
           key={ index }
           className={`flex justify-between pl-2 border border-black mb-1 bg-green-500
-            ${appointment.conflicts ? 'bg-yellow-500' : ''}
-            ${appointment.suggested ? 'bg-blue-500' : ''}
-            ${appointment.inapt ? 'bg-red-500' : ''}
+            ${appointment.conflicts ? '!bg-yellow-500' : ''}
+            ${appointment.suggested ? '!bg-blue-500' : ''}
+            ${appointment.inapt ? '!bg-red-500' : ''}
           `}>
           {appointment.patient_id}
           , {appointment.doctor_id}
